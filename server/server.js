@@ -12,9 +12,16 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 io.on('connection', (socket) => {
-  console.log('new user connected');
-  socket.on('disconnect', () => console.log('callback socket disconnection'))
-})
+  socket.on('disconnect', () => console.log('callback socket disconnection'));
+  socket.on('createMessage', (message) => {
+    console.log(`message from client: ${message}` );
+  })
+  socket.emit('newMessage', {
+    from: '4head',
+    text: '4head!!!',
+    createdAt: 234
+  });
+});
 
 app.use(express.static(publicPath));
 
